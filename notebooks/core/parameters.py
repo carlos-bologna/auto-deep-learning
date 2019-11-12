@@ -1,4 +1,5 @@
 from torchvision import transforms
+import numpy as np
 
 BASE_DIR = '/mnt/diabetic_retinopathy_v2'
 
@@ -30,15 +31,15 @@ BLACK_LIST_ID = []
 
 INPUT_SIZE = 299
 
+CHANNELS = 3
+
 IMAGE_FORMAT = 'npy'
 
 MODELS = ['ResNet50']
 
 LOAD_CHECKPOINT = True
 
-CHECKPOINTS = {'resnet50': 'FineTuningResNet50Continue_DefaultAdam_MSELoss_imgsize299_loss_0.3881308227288331.pt'}
-
-OPTIMIZERS = ['DefaultAdam']
+OPTIMIZERS = ['AmsGradAdam0005']
 
 LOSSES = ['SmoothL1Loss']
 
@@ -50,9 +51,20 @@ METRIC = 'KAPPA' # ACC, KAPPA
 
 SAVE_BEST = 'loss' # [metric | loss]
 
-TRAIN_AUGMENTATION = [transforms.RandomRotation((0,360)),
-                      transforms.RandomHorizontalFlip(p=0.5),
-                      transforms.RandomVerticalFlip(p=0.5),
-                      transforms.ToTensor()]
+#TRAIN_AUGMENTATION = [transforms.RandomRotation((0,360)),
+#                      transforms.RandomHorizontalFlip(p=0.5),
+#                      transforms.RandomVerticalFlip(p=0.5),
+#                      transforms.ToTensor()]
+#
+#TEST_AUGMENTATION = [transforms.ToTensor()]
 
-TEST_AUGMENTATION = [transforms.ToTensor()]
+TRAIN_AUGMENTATION = [transforms.RandomRotation((0,360)),
+                     transforms.RandomHorizontalFlip(p=0.5),
+                     transforms.RandomVerticalFlip(p=0.5),
+                     transforms.ToTensor(),
+                     transforms.Normalize(np.array([0.485, 0.456, 0.406], dtype=np.float32), 
+                                          np.array([0.229, 0.224, 0.225], dtype=np.float32))]
+
+TEST_AUGMENTATION = [transforms.ToTensor(),
+                    transforms.Normalize(np.array([0.485, 0.456, 0.406], dtype=np.float32), 
+                                         np.array([0.229, 0.224, 0.225], dtype=np.float32))]
