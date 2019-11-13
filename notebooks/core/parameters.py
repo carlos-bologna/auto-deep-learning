@@ -15,7 +15,7 @@ TEST_LABELS = DATA_DIR + '/both/test.csv'
 
 BATCH_SIZE = 64
 
-NUM_EPOCH = 50
+NUM_EPOCH = 10
 
 TEST_SPLIT = 0.3
 
@@ -37,13 +37,15 @@ IMAGE_FORMAT = 'npy'
 
 MODELS = ['ResNet50']
 
-LOAD_CHECKPOINT = True
+LOAD_CHECKPOINT = False
 
 OPTIMIZERS = ['AmsGradAdam0005']
 
+SCHEDULERS = [None, 'ReduceLROnPlateau'] # Add None if you don't want a scheduler, just optimizer.
+
 LOSSES = ['SmoothL1Loss']
 
-SAMPLE_FRAC = 1.0 #Fraction of dataset to use. Set to 1.0 to use the entire dataset.
+SAMPLE_FRAC = 0.01 #Fraction of dataset to use. Set to 1.0 to use the entire dataset.
 
 CUDA_DEVICES = [0]
 
@@ -52,19 +54,24 @@ METRIC = 'KAPPA' # ACC, KAPPA
 SAVE_BEST = 'loss' # [metric | loss]
 
 #TRAIN_AUGMENTATION = [transforms.RandomRotation((0,360)),
-#                      transforms.RandomHorizontalFlip(p=0.5),
-#                      transforms.RandomVerticalFlip(p=0.5),
-#                      transforms.ToTensor()]
+#                     transforms.RandomHorizontalFlip(p=0.5),
+#                     transforms.RandomVerticalFlip(p=0.5),
+#                     transforms.ToTensor(),
+#                     transforms.Normalize(np.array([0.485, 0.456, 0.406], dtype=np.float32), 
+#                                          np.array([0.229, 0.224, 0.225], dtype=np.float32))]
 #
-#TEST_AUGMENTATION = [transforms.ToTensor()]
+#TEST_AUGMENTATION = [transforms.ToTensor(),
+#                    transforms.Normalize(np.array([0.485, 0.456, 0.406], dtype=np.float32), 
+#                                         np.array([0.229, 0.224, 0.225], dtype=np.float32))]
 
+# Data Augumentation with Dataset Mean and Standard Deviation
 TRAIN_AUGMENTATION = [transforms.RandomRotation((0,360)),
                      transforms.RandomHorizontalFlip(p=0.5),
                      transforms.RandomVerticalFlip(p=0.5),
                      transforms.ToTensor(),
-                     transforms.Normalize(np.array([0.485, 0.456, 0.406], dtype=np.float32), 
-                                          np.array([0.229, 0.224, 0.225], dtype=np.float32))]
+                     transforms.Normalize(np.array([0.432, 0.301, 0.215], dtype=np.float32), 
+                                          np.array([0.274, 0.201, 0.167], dtype=np.float32))]
 
 TEST_AUGMENTATION = [transforms.ToTensor(),
-                    transforms.Normalize(np.array([0.485, 0.456, 0.406], dtype=np.float32), 
-                                         np.array([0.229, 0.224, 0.225], dtype=np.float32))]
+                    transforms.Normalize(np.array([0.432, 0.301, 0.215], dtype=np.float32), 
+                                         np.array([0.274, 0.201, 0.167], dtype=np.float32))]
