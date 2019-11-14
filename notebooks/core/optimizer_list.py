@@ -23,6 +23,22 @@ OPTIMIZER_LIST = {
         'weight_decay': 0,
         'amsgrad': True
     },
+    'AmsGradAdam00005': {
+        'function': 'Adam',
+        'lr': 0.00005,
+        'betas': (0.9, 0.999),
+        'eps': 1e-08,
+        'weight_decay': 0,
+        'amsgrad': True
+    },
+    'AmsGradAdam0002': {
+        'function': 'Adam',
+        'lr': 0.0002,
+        'betas': (0.9, 0.999),
+        'eps': 1e-08,
+        'weight_decay': 0,
+        'amsgrad': True
+    },
     'HalfLRAdam': {
         'function': 'Adam',
         'lr': 0.0005,
