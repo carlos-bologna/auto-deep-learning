@@ -15,7 +15,7 @@ TEST_LABELS = DATA_DIR + '/both/test.csv'
 
 BATCH_SIZE = 64
 
-NUM_EPOCH = 10
+NUM_EPOCH = 200
 
 TEST_SPLIT = 0.3
 
@@ -41,13 +41,13 @@ LOAD_CHECKPOINT = False
 
 OPTIMIZERS = ['AmsGradAdam0005']
 
-SCHEDULERS = [None, 'ReduceLROnPlateau'] # Add None if you don't want a scheduler, just optimizer.
+SCHEDULERS = ['ReduceLROnPlateau'] # Add None if you don't want a scheduler, just optimizer.
 
 LOSSES = ['SmoothL1Loss']
 
-SAMPLE_FRAC = 0.01 #Fraction of dataset to use. Set to 1.0 to use the entire dataset.
+SAMPLE_FRAC = 0.5 #Fraction of dataset to use. Set to 1.0 to use the entire dataset.
 
-CUDA_DEVICES = [0]
+CUDA_DEVICES = [0,1,2,3]
 
 METRIC = 'KAPPA' # ACC, KAPPA
 
