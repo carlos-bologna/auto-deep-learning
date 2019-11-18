@@ -9,6 +9,7 @@ from skimage import io
 import concurrent.futures
 from sklearn.cluster import KMeans
 from core.parameters import *
+from collections import Counter
 
 kmeans = None
 
@@ -16,6 +17,12 @@ def CropROI(img):
     global kmeans
     x = img[img.shape[0] // 2, : , :].sum(1)
     xk = kmeans.predict(x.reshape(-1, 1))
+    
+    # Make sure that monority classe is zero
+    freq_distrib = Counter(xk)
+    if freq_distrib[0] > freq_distrib[1]:
+        xk = 1 - xk
+    
     x1 = np.argmax(xk)
     x2 = img.shape[1] - np.argmax(np.flip(xk, axis=0))
     
@@ -50,6 +57,10 @@ def resize_and_convert(files):
     src_file = files[0]
     dst_file = files[1]
     
+    if os.path.exists(dst_file):
+        print('Exist', dst_file)
+        return
+    
     # Read Image as BGR colors layers
     img = np.array(Image.open(src_file))
 
@@ -64,7 +75,7 @@ def resize_and_convert(files):
     
     # Resize
     target_size = dst_file.split('/')[-3]
-    img = cv2.resize(img, (target_size, target_size))
+    img = cv2.resize(img, (int(target_size), int(target_size)))
     
     # Normalize
     #img = normalize(img)
