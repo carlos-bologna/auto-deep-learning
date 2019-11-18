@@ -1,39 +1,31 @@
 from torchvision import transforms
 import numpy as np
 
-BASE_DIR = '/mnt/diabetic_retinopathy_v2'
-
+# Source Directories
+BASE_DIR = '/mnt/diabetic_retinopathy_v3'
 DATA_DIR = BASE_DIR + '/data'
-
 MODEL_DIR = BASE_DIR + '/models'
 
-TRAIN_DIR = DATA_DIR + '/both/train_images_numpy_299'
-TEST_DIR = DATA_DIR + '/both/train_images_numpy_299' #Same path because we split train in train and test.
+# Destination Directories
+DST_DATA_DIR = '/mnt/auto-deep-learning/data'
+CLEAR_ALL_DATA_BEFORE_PREPROCESS = True
 
-TRAIN_LABELS = DATA_DIR + '/both/train.csv'
-TEST_LABELS = DATA_DIR + '/both/test.csv'
+# Hiperparameters
+CUDA_DEVICES = [0,1,2,3]
 
-BATCH_SIZE = 64
+SEED = 42
 
 NUM_EPOCH = 200
 
 TEST_SPLIT = 0.3
 
-SEED = 42
-
 NUM_CLASSES = 1
-
-ID_COLUMN = 'id_code'
-
-LABEL_COLUMN = ['diagnosis']
-
-BLACK_LIST_ID = []
-
-INPUT_SIZE = 299
 
 CHANNELS = 3
 
-IMAGE_FORMAT = 'npy'
+INPUT_SIZE = [299]
+
+BATCH_SIZE = [64]
 
 MODELS = ['ResNet50']
 
@@ -45,9 +37,7 @@ SCHEDULERS = ['ReduceLROnPlateau'] # Add None if you don't want a scheduler, jus
 
 LOSSES = ['SmoothL1Loss']
 
-SAMPLE_FRAC = 0.1 #Fraction of dataset to use. Set to 1.0 to use the entire dataset.
-
-CUDA_DEVICES = [0,1,2,3]
+SAMPLE_FRAC = [0.1] #Fraction of dataset to use. Set to 1.0 to use the entire dataset.
 
 METRIC = 'KAPPA' # ACC, KAPPA
 

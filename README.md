@@ -17,6 +17,8 @@ pip install efficientnet_pytorch
 pip install torchsummary
 pip install tensorboard
 pip install tensorboardX
+pip install opencv-python
+
 ```
 
 # Usefull Commands
