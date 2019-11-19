@@ -7,6 +7,22 @@ OPTIMIZER_LIST = {
         'weight_decay': 0,
         'amsgrad': False
     },
+    'Adam0005': {
+        'function': 'Adam',
+        'lr': 0.0005,
+        'betas': (0.9, 0.999),
+        'eps': 1e-08,
+        'weight_decay': 0,
+        'amsgrad': False
+    },
+    'Adam0001': {
+        'function': 'Adam',
+        'lr': 0.0001,
+        'betas': (0.9, 0.999),
+        'eps': 1e-08,
+        'weight_decay': 0,
+        'amsgrad': False
+    },
     'AmsGradAdam': {
         'function': 'Adam',
         'lr': 0.001,
@@ -23,9 +39,9 @@ OPTIMIZER_LIST = {
         'weight_decay': 0,
         'amsgrad': True
     },
-    'AmsGradAdam00005': {
+    'AmsGradAdam0001': {
         'function': 'Adam',
-        'lr': 0.00005,
+        'lr': 0.0001,
         'betas': (0.9, 0.999),
         'eps': 1e-08,
         'weight_decay': 0,
@@ -34,6 +50,14 @@ OPTIMIZER_LIST = {
     'AmsGradAdam0002': {
         'function': 'Adam',
         'lr': 0.0002,
+        'betas': (0.9, 0.999),
+        'eps': 1e-08,
+        'weight_decay': 0,
+        'amsgrad': True
+    },
+    'AmsGradAdam00005': {
+        'function': 'Adam',
+        'lr': 0.00005,
         'betas': (0.9, 0.999),
         'eps': 1e-08,
         'weight_decay': 0,

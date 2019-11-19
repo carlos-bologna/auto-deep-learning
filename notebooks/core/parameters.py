@@ -29,11 +29,11 @@ BATCH_SIZES = [64, 128]
 
 MODELS = ['ResNet50', 'ResNet50Attention', 'ResNet101']
 
-LOAD_CHECKPOINT = True
+LOAD_CHECKPOINT = False
 
-OPTIMIZERS = ['DefaultAdam', 'AmsGradAdam']
+OPTIMIZERS = ['Adam0005', 'Adam0001', 'AmsGradAdam0005', 'AmsGradAdam0001']
 
-SCHEDULERS = [None, 'ReduceLROnPlateau'] # Add None if you don't want a scheduler, just optimizer.
+SCHEDULERS = [None] # Add None if you don't want a scheduler, just optimizer.
 
 LOSSES = ['SmoothL1Loss']
 
