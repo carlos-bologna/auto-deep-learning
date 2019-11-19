@@ -58,7 +58,6 @@ def resize_and_convert(files):
     dst_file = files[1]
     
     if os.path.exists(dst_file):
-        print('Exist', dst_file)
         return
     
     # Read Image as BGR colors layers

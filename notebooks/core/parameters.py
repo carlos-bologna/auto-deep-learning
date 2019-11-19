@@ -8,36 +8,36 @@ MODEL_DIR = BASE_DIR + '/models'
 
 # Destination Directories
 DST_DATA_DIR = '/mnt/auto-deep-learning/data'
-CLEAR_ALL_DATA_BEFORE_PREPROCESS = True
+CLEAR_ALL_DATA_BEFORE_PREPROCESS = False
 
 # Hiperparameters
-CUDA_DEVICES = [0,1,2,3]
+CUDA_DEVICES = [-1] #[0,1,2,3] or [2,3] or any combination. Use -1 for all available GPUs.
 
 SEED = 42
 
-NUM_EPOCH = 200
+NUM_EPOCH = 10
 
-TEST_SPLIT = 0.3
+TEST_SPLIT = 0.2
 
 NUM_CLASSES = 1
 
 CHANNELS = 3
 
-INPUT_SIZE = [299]
+INPUT_SIZES = [299]
 
-BATCH_SIZE = [64]
+BATCH_SIZES = [64, 128]
 
-MODELS = ['ResNet50']
+MODELS = ['ResNet50', 'ResNet50Attention', 'ResNet101']
 
 LOAD_CHECKPOINT = True
 
-OPTIMIZERS = ['AmsGradAdam0005']
+OPTIMIZERS = ['DefaultAdam', 'AmsGradAdam']
 
-SCHEDULERS = ['ReduceLROnPlateau'] # Add None if you don't want a scheduler, just optimizer.
+SCHEDULERS = [None, 'ReduceLROnPlateau'] # Add None if you don't want a scheduler, just optimizer.
 
 LOSSES = ['SmoothL1Loss']
 
-SAMPLE_FRAC = [0.1] #Fraction of dataset to use. Set to 1.0 to use the entire dataset.
+SAMPLE_FRACS = [0.1] #Fraction of dataset to use. Set to 1.0 to use the entire dataset.
 
 METRIC = 'KAPPA' # ACC, KAPPA
 

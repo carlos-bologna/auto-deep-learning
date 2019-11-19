@@ -14,6 +14,12 @@ NET_LIST = {
     'Densenet121': {
         'base_model': 'densenet121',
         'is_inception': False,
+        'pretrained': False,
+        'layers_to_frozen': []
+    },
+    'Densenet121Pre': {
+        'base_model': 'densenet121',
+        'is_inception': False,
         'pretrained': True,
         'layers_to_frozen': []
     },
@@ -42,6 +48,12 @@ NET_LIST = {
     'VGG16': {
         'base_model': 'vgg16',
         'is_inception': False,
+        'pretrained': False,
+        'layers_to_frozen': []
+    },
+    'VGG16Pre': {
+        'base_model': 'vgg16',
+        'is_inception': False,
         'pretrained': True,
         'layers_to_frozen': []
     },
@@ -55,6 +67,12 @@ NET_LIST = {
                              'features.28', 'classifier.0', 'classifier.3']
     },
     'ResNet50': {
+        'base_model': 'resnet50',
+        'is_inception': False,
+        'pretrained': False,
+        'layers_to_frozen': []
+    },
+    'ResNet50Pre': {
         'base_model': 'resnet50',
         'is_inception': False,
         'pretrained': True,
@@ -81,6 +99,12 @@ NET_LIST = {
     'ResNet50Attention': {
         'base_model': 'ResNet50Attention',
         'is_inception': False,
+        'pretrained': False,
+        'layers_to_frozen': []
+    },
+    'ResNet50AttentionPre': {
+        'base_model': 'ResNet50Attention',
+        'is_inception': False,
         'pretrained': True,
         'layers_to_frozen': []
     },
@@ -96,7 +120,25 @@ NET_LIST = {
         'pretrained': True,
         'layers_to_frozen': []
     },
+    'ResNet101': {
+        'base_model': 'resnet101',
+        'is_inception': False,
+        'pretrained': False,
+        'layers_to_frozen': []
+    },
+    'ResNet101Pre': {
+        'base_model': 'resnet101',
+        'is_inception': False,
+        'pretrained': True,
+        'layers_to_frozen': []
+    },
     'Inception3': {
+        'base_model': 'inception_v3',
+        'is_inception': True,
+        'pretrained': False,
+        'layers_to_frozen': []
+    },
+    'Inception3Pre': {
         'base_model': 'inception_v3',
         'is_inception': True,
         'pretrained': True,
@@ -140,6 +182,12 @@ NET_LIST = {
                              'Mixed_7c.branch3x3dbl_3a', 'Mixed_7c.branch3x3dbl_3b', 'Mixed_7c.branch_pool']
     },
     'EfficientNetB7': {
+        'base_model': 'efficientnetb7',
+        'is_inception': False,
+        'pretrained': False,
+        'layers_to_frozen': []
+    },
+    'EfficientNetB7Pre': {
         'base_model': 'efficientnetb7',
         'is_inception': False,
         'pretrained': True,
