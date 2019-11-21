@@ -23,15 +23,15 @@ NUM_CLASSES = 1
 
 CHANNELS = 3
 
-INPUT_SIZES = [299]
+INPUT_SIZES = [299, 384, 512]
 
-BATCH_SIZES = [64, 128]
+BATCH_SIZES = [64, 128, 200]
 
-MODELS = ['ResNet50', 'ResNet50Attention', 'ResNet101']
+MODELS = ['ResNet50AttentionPre', 'ResNet101AttentionPre']
 
 LOAD_CHECKPOINT = False
 
-OPTIMIZERS = ['Adam0005', 'Adam0001', 'AmsGradAdam0005', 'AmsGradAdam0001']
+OPTIMIZERS = ['Adam0001']
 
 SCHEDULERS = [None] # Add None if you don't want a scheduler, just optimizer.
 
@@ -44,6 +44,8 @@ METRIC = 'KAPPA' # ACC, KAPPA
 SAVE_BEST = 'loss' # [metric | loss]
 
 # Data Augumentation with Dataset Mean and Standard Deviation
+AUGMENTATION_TAG = 'DatasetMeanStd'
+
 #TRAIN_AUGMENTATION = [transforms.RandomRotation((0,360)),
 #                     transforms.RandomHorizontalFlip(p=0.5),
 #                     transforms.RandomVerticalFlip(p=0.5),

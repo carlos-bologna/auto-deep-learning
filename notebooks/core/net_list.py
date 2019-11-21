@@ -108,6 +108,18 @@ NET_LIST = {
         'pretrained': True,
         'layers_to_frozen': []
     },
+    'ResNet101Attention': {
+        'base_model': 'ResNet101Attention',
+        'is_inception': False,
+        'pretrained': False,
+        'layers_to_frozen': []
+    },
+    'ResNet101AttentionPre': {
+        'base_model': 'ResNet101Attention',
+        'is_inception': False,
+        'pretrained': True,
+        'layers_to_frozen': []
+    },
     'FineTuningResNet50AttentionMultiTask': {
         'base_model': 'ResNet50AttentionMultiTask',
         'is_inception': False,
