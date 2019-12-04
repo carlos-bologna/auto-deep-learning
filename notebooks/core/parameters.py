@@ -23,13 +23,13 @@ NUM_CLASSES = 1
 
 CHANNELS = 3
 
-INPUT_SIZES = [299, 384, 512]
+INPUT_SIZES = [512]
 
-BATCH_SIZES = [64, 128, 200]
+BATCH_SIZES = [64]
 
-MODELS = ['ResNet50AttentionPre', 'ResNet101AttentionPre']
+MODELS = ['ResNet101AttentionPre', 'ResNet50AttentionPre']
 
-LOAD_CHECKPOINT = False
+LOAD_CHECKPOINT = True
 
 OPTIMIZERS = ['Adam0001']
 
@@ -37,7 +37,7 @@ SCHEDULERS = [None] # Add None if you don't want a scheduler, just optimizer.
 
 LOSSES = ['SmoothL1Loss']
 
-SAMPLE_FRACS = [0.1] #Fraction of dataset to use. Set to 1.0 to use the entire dataset.
+SAMPLE_FRACS = [0.5] #Fraction of dataset to use. Set to 1.0 to use the entire dataset.
 
 METRIC = 'KAPPA' # ACC, KAPPA
 
