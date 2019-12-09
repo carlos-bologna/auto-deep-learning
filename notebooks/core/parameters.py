@@ -2,12 +2,11 @@ from torchvision import transforms
 import numpy as np
 
 # Source Directories
-BASE_DIR = '/mnt/diabetic_retinopathy_v3'
+BASE_DIR = '/mnt/diabetic_retinopathy'
 DATA_DIR = BASE_DIR + '/data'
 MODEL_DIR = BASE_DIR + '/models'
+DST_DATA_DIR = BASE_DIR + '/npy'
 
-# Destination Directories
-DST_DATA_DIR = '/mnt/auto-deep-learning/data'
 CLEAR_ALL_DATA_BEFORE_PREPROCESS = False
 
 # Hiperparameters

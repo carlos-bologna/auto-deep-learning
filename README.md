@@ -18,6 +18,8 @@ pip install torchsummary
 pip install tensorboard
 pip install tensorboardX
 pip install opencv-python
+cd ~
+git clone https://github.com/carlos-bologna/auto-deep-learning.git
 
 ```
 
