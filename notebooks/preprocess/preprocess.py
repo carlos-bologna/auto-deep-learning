@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 from skimage import io
 import concurrent.futures
 from sklearn.cluster import KMeans
-from core.parameters import *
 from collections import Counter
 
 kmeans = None
@@ -83,7 +82,7 @@ def resize_and_convert(files):
     np.save(dst_file, img.astype(np.uint8))
     
         
-def Preprocess(data_dir, x, y, input_size, clear_cache):
+def Preprocess(data_dir, x, y, input_size, clear_cache, dst_dir):
 
     global kmeans
     
@@ -105,16 +104,16 @@ def Preprocess(data_dir, x, y, input_size, clear_cache):
 
     # Clear All Previous Preprocess Images
     if clear_cache:
-        shutil.rmtree(os.path.join(DST_DATA_DIR, str(input_size)), ignore_errors=True)
+        shutil.rmtree(os.path.join(dst_dir, str(input_size)), ignore_errors=True)
     
     # Check/Create Destination Directory
     for d in set(y):
-        if not os.path.isdir(os.path.join(DST_DATA_DIR, str(input_size), str(d))):
-            os.makedirs(os.path.join(DST_DATA_DIR, str(input_size), str(d)))
+        if not os.path.isdir(os.path.join(dst_dir, str(input_size), str(d))):
+            os.makedirs(os.path.join(dst_dir, str(input_size), str(d)))
     
     # Make Source Full Path
     src_files = list(map(lambda x: data_dir + '/' + x , files))
-    dst_files = list(map(lambda x: DST_DATA_DIR + '/' + str(input_size) + '/' + x.split('.')[0] + '.npy' , files))
+    dst_files = list(map(lambda x: dst_dir + '/' + str(input_size) + '/' + x.split('.')[0] + '.npy' , files))
     path_list = list(zip(src_files, dst_files))
     
     with concurrent.futures.ProcessPoolExecutor() as executor:
