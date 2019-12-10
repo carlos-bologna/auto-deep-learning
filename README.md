@@ -32,6 +32,8 @@ ssh -i mykey.pem -L 6006:127.0.0.1:6006 ubuntu@xxx.xxx.xxx.xxx
 sudo mount -a
 watch nvidia-smi
 
+```
+
 # Parameters
 
 You can custom your own set of parameters to apply deep learning grid search in your dataset, to do so, just change ou create a JSON file and put it on parameters directory.
