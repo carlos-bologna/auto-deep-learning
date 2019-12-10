@@ -32,3 +32,21 @@ ssh -i mykey.pem -L 6006:127.0.0.1:6006 ubuntu@xxx.xxx.xxx.xxx
 sudo mount -a
 watch nvidia-smi
 
+# Parameters
+
+You can custom your own set of parameters to apply deep learning grid search in your dataset, to do so, just change ou create a JSON file and put it on parameters directory.
+Do not forget to pass the name of the file that you just created, when running the Python file training.
+
+Some parameters allow just a few options, like those:
+
+cuda_devices: [0,1,2,3] or [2,3] or any combination. Use -1 for all available GPUs.
+
+schedulers: set "null" (without quote mark) if you don't want a scheduler, just optimizer.
+
+sample_fracs: fraction of dataset to use. Set to 1.0 to use the entire dataset.
+
+metric: [ACC | KAPPA]
+
+save_best: [metric | loss] if you decide to save the model based on the best score, then, set "loss" (without quote mark) in this parameter.
+
+
