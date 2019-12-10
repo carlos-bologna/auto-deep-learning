@@ -3,7 +3,8 @@
       "base":"/mnt/diabetic_retinopathy",
       "data":"/mnt/diabetic_retinopathy/data",
       "model":"/mnt/diabetic_retinopathy/models",
-      "numpy":"/mnt/diabetic_retinopathy/npy"
+      "numpy":"/mnt/diabetic_retinopathy/npy",
+      "logs":"/mnt/diabetic_retinopathy/logs"
    },
    "clear_all_data_before_preprocess":false,
    "cuda_devices":[
