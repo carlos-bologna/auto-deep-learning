@@ -41,14 +41,14 @@ Do not forget to pass the name of the file that you just created, when running t
 
 Some parameters allow just a few options, like those:
 
-cuda_devices: [0,1,2,3] or [2,3] or any combination. Use -1 for all available GPUs.
+**cuda_devices**: [0,1,2,3] or [2,3] or any combination. Use -1 for all available GPUs.
 
-schedulers: set "null" (without quote mark) if you don't want a scheduler, just optimizer.
+**schedulers**: set "null" (without quote mark) if you don't want a scheduler, just optimizer.
 
-sample_fracs: fraction of dataset to use. Set to 1.0 to use the entire dataset.
+**sample_fracs**: fraction of dataset to use. Set to 1.0 to use the entire dataset.
 
-metric: [ACC | KAPPA]
+**metric**: [ACC | KAPPA]
 
-save_best: [metric | loss] if you decide to save the model based on the best score, then, set "loss" (without quote mark) in this parameter.
+**save_best**: [metric | loss] if you decide to save the model based on the best score, then, set "loss" (without quote mark) in this parameter.
 
 
