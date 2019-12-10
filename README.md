@@ -20,6 +20,7 @@ pip install tensorboardX
 pip install opencv-python
 cd ~
 git clone https://github.com/carlos-bologna/auto-deep-learning.git
+cd auto-deep-learning
 
 ```
 

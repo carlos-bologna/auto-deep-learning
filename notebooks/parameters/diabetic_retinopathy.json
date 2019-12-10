@@ -53,21 +53,21 @@
          {
             "RandomAffine":{
                "degrees":0,
-               "translate":"(0.0, 0.2)",
-               "scale":"(1.0, 1.2)",
+               "translate": [0.0, 0.2],
+               "scale": [1.0, 1.2],
                "shear":0.2,
                "resample":false,
                "fillcolor":0
             }
          },
          {
-            "RandomRotation":"(0,180)"
+            "RandomRotation": [0,180]
          },
          {
-            "RandomHorizontalFlip":"(p:0.5)"
+            "RandomHorizontalFlip": 0.5
          },
          {
-            "RandomVerticalFlip":"(p:0.5)"
+            "RandomVerticalFlip": 0.5
          },
          {
             "ToTensor":null
