@@ -2,7 +2,7 @@
    "DefaultAdam":{
       "function":"Adam",
       "lr":0.001,
-      "betas":"(0.9, 0.999)",
+      "betas":[0.9, 0.999],
       "eps":1e-08,
       "weight_decay":0,
       "amsgrad":false
@@ -10,7 +10,7 @@
    "Adam0005":{
       "function":"Adam",
       "lr":0.0005,
-      "betas":"(0.9, 0.999)",
+      "betas":[0.9, 0.999],
       "eps":1e-08,
       "weight_decay":0,
       "amsgrad":false
@@ -18,7 +18,7 @@
    "Adam0001":{
       "function":"Adam",
       "lr":0.0001,
-      "betas":"(0.9, 0.999)",
+      "betas":[0.9, 0.999],
       "eps":1e-08,
       "weight_decay":0,
       "amsgrad":false
@@ -26,7 +26,7 @@
    "AmsGradAdam":{
       "function":"Adam",
       "lr":0.001,
-      "betas":"(0.9, 0.999)",
+      "betas":[0.9, 0.999],
       "eps":1e-08,
       "weight_decay":0,
       "amsgrad":true
@@ -34,7 +34,7 @@
    "AmsGradAdam0005":{
       "function":"Adam",
       "lr":0.0005,
-      "betas":"(0.9, 0.999)",
+      "betas":[0.9, 0.999],
       "eps":1e-08,
       "weight_decay":0,
       "amsgrad":true
@@ -42,7 +42,7 @@
    "AmsGradAdam0001":{
       "function":"Adam",
       "lr":0.0001,
-      "betas":"(0.9, 0.999)",
+      "betas":[0.9, 0.999],
       "eps":1e-08,
       "weight_decay":0,
       "amsgrad":true
@@ -50,7 +50,7 @@
    "AmsGradAdam0002":{
       "function":"Adam",
       "lr":0.0002,
-      "betas":"(0.9, 0.999)",
+      "betas":[0.9, 0.999],
       "eps":1e-08,
       "weight_decay":0,
       "amsgrad":true
@@ -58,7 +58,7 @@
    "AmsGradAdam00005":{
       "function":"Adam",
       "lr":0.00005,
-      "betas":"(0.9, 0.999)",
+      "betas":[0.9, 0.999],
       "eps":1e-08,
       "weight_decay":0,
       "amsgrad":true
@@ -66,7 +66,7 @@
    "HalfLRAdam":{
       "function":"Adam",
       "lr":0.0005,
-      "betas":"(0.9, 0.999)",
+      "betas":[0.9, 0.999],
       "eps":1e-08,
       "weight_decay":0,
       "amsgrad":false
@@ -74,7 +74,7 @@
    "DoubleWDAdam":{
       "function":"Adam",
       "lr":0.001,
-      "betas":"(0.9, 0.999)",
+      "betas":[0.9, 0.999],
       "eps":1e-08,
       "weight_decay":0.0001,
       "amsgrad":false
