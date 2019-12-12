@@ -262,6 +262,8 @@ def getModel(net_list, model_name, num_classes, model_dir, load_checkpoint):
     base_model = model_parameters['base_model']
     pretrained = model_parameters['pretrained']
 
+    is_cuda = torch.cuda.is_available()
+
     if base_model=='densenet121':
 
         model = densenet121(pretrained = pretrained)
@@ -824,7 +826,6 @@ def main():
 
     # # Cuda
     if torch.cuda.is_available(): #GPU
-        is_cuda = True
 
         if parameters['cuda_devices'][0] == -1: # All GPUs
             parameters['cuda_devices'] = list(range(0, torch.cuda.device_count()))
@@ -836,7 +837,6 @@ def main():
         print("Total GPU is", torch.cuda.device_count())
 
     else: #CPU
-        is_cuda = False
         device = "cpu"
 
     # Set seed for CUDA (all GPU)
