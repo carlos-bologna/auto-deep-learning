@@ -402,7 +402,7 @@ def getScheduler(scheduler_name, optimizer):
 # In[11]:
 
 
-def getOptimizer(optimizer_name, model):
+def getOptimizer(optimizer_list, optimizer_name, model):
 
     params_to_update = []
 
@@ -414,7 +414,7 @@ def getOptimizer(optimizer_name, model):
 
             #print("\t",name)
 
-    opt_parameters = OPTIMIZER_LIST[optimizer_name]
+    opt_parameters = optimizer_list[optimizer_name]
 
     if opt_parameters['function'] == 'Adam':
 
@@ -727,7 +727,7 @@ def train_model(parameters, model, model_name, loss_name, dataloaders, criterion
 
 # In[16]:
 
-def GridSearch(net_list, parameters):
+def GridSearch(net_list, optimizer_list, parameters):
 
     model_name_list = []
     metric_list = []
@@ -749,7 +749,7 @@ def GridSearch(net_list, parameters):
 
                     for o in parameters['optimizers']:
 
-                        optimizer = getOptimizer(o, model)
+                        optimizer = getOptimizer(optimizer_list, o, model)
 
                         for s in parameters['schedulers']:
 
@@ -836,7 +836,7 @@ def main():
             if 'weight' in LOSS_LIST[l]:
                 LOSS_LIST[l]['weight'] = torch.from_numpy(w_classes).to(device)
 
-    GridSearch(NET_LIST, parameters)
+    GridSearch(NET_LIST, OPTIMIZER_LIST, parameters)
 
 if __name__ == '__main__':
     main()
