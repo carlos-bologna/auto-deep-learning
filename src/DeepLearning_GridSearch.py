@@ -706,7 +706,7 @@ def train_model(model, model_name, model_dir, loss_name, dataloaders, criterion,
 
 # In[16]:
 
-def GridSearch(parameters):
+def GridSearch(net_list, parameters):
 
     model_name_list = []
     metric_list = []
@@ -722,7 +722,7 @@ def GridSearch(parameters):
 
                 for m in parameters['models']:
 
-                    model_parameters = NET_LIST[m]
+                    model_parameters = net_list[m]
                     base_model = model_parameters['base_model']
                     model = getModel(m, parameters['num_classes'], parameters['directory']['model'], parameters['load_checkpoint'])
 
@@ -762,7 +762,7 @@ def GridSearch(parameters):
                                     num_epochs=parameters['num_epoch'],
                                     next_epoch=next_epoch,
                                     best_score=best_score,
-                                    is_inception=NET_LIST[m]['is_inception'],
+                                    is_inception=net_list[m]['is_inception'],
                                     save_best=parameters['save_best'],
                                     metric=parameters['metric'],
                                     )
@@ -844,7 +844,7 @@ def main():
 
     print('Cuda:', is_cuda, ', Device:', device)
 
-    GridSearch(parameters)
+    GridSearch(net_list, parameters)
 
 
 if __name__ == '__main__':
