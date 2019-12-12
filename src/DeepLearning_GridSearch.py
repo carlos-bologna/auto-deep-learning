@@ -842,7 +842,7 @@ def main():
     # Set seed for CUDA (all GPU)
     #torch.cuda.manual_seed_all(SEED)
 
-    print('Cuda:', is_cuda, ', Device:', device)
+    #print('Cuda:', is_cuda, ', Device:', device)
 
     GridSearch(NET_LIST, parameters)
 
