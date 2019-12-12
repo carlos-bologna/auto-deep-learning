@@ -74,11 +74,33 @@ def PrintCombinations(parameters):
                                 print(model_name)
                                 i += 1
 
+# Cuda
+def getCudaDevices()
+
+    is_cuda = torch.cuda.is_available()
+
+    if is_cuda: #GPU
+
+        if parameters['cuda_devices'][0] == -1: # All GPUs
+            parameters['cuda_devices'] = list(range(0, torch.cuda.device_count()))
+
+        cuda_list = ','.join([str(c) for c in parameters['cuda_devices']])
+
+        device = torch.device("cuda:{}".format(cuda_list))
+
+        print("Total GPU is", torch.cuda.device_count())
+
+    else: #CPU
+        device = "cpu"
+
+    # Set seed for CUDA (all GPU)
+    #torch.cuda.manual_seed_all(SEED)
+
+    #print('Cuda:', is_cuda, ', Device:', device)
+
+    return is_cuda, device
+
 # # Custom Dataset
-
-# In[5]:
-
-
 class CustomDataset(Dataset):
 
     def __init__(self, data_dir, test_split, sample_frac, input_size, dst_dir,
@@ -262,7 +284,7 @@ def getModel(net_list, model_name, general_parameters):
     base_model = model_parameters['base_model']
     pretrained = model_parameters['pretrained']
 
-    is_cuda = torch.cuda.is_available()
+    is_cuda, device = getCudaDevices()
 
     if base_model=='densenet121':
 
@@ -592,6 +614,8 @@ def train_model(model, model_name, model_dir, loss_name, dataloaders, criterion,
     print(model_name)
     print('-' * 100)
 
+    is_cuda, device = getCudaDevices()
+
     for epoch in range(next_epoch, num_epochs):
 
         print('Epoch {}/{}'.format(epoch, num_epochs - 1))
@@ -808,11 +832,9 @@ def main():
 
     PrintCombinations(parameters)
 
+    is_cuda, device = getCudaDevices()
+
     # # Calc Classes Weight
-
-    # In[8]:
-
-
     if parameters['num_classes'] > 1:
 
         distrib_freq = train_dataset.y.sum().to_numpy()
@@ -823,29 +845,7 @@ def main():
             if 'weight' in LOSS_LIST[l]:
                 LOSS_LIST[l]['weight'] = torch.from_numpy(w_classes).to(device)
 
-
-    # # Cuda
-    if torch.cuda.is_available(): #GPU
-
-        if parameters['cuda_devices'][0] == -1: # All GPUs
-            parameters['cuda_devices'] = list(range(0, torch.cuda.device_count()))
-
-        cuda_list = ','.join([str(c) for c in parameters['cuda_devices']])
-
-        device = torch.device("cuda:{}".format(cuda_list))
-
-        print("Total GPU is", torch.cuda.device_count())
-
-    else: #CPU
-        device = "cpu"
-
-    # Set seed for CUDA (all GPU)
-    #torch.cuda.manual_seed_all(SEED)
-
-    #print('Cuda:', is_cuda, ', Device:', device)
-
     GridSearch(NET_LIST, parameters)
-
 
 if __name__ == '__main__':
     main()
