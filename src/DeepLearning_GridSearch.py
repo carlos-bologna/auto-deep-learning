@@ -275,7 +275,7 @@ def getModel(net_list, model_name, general_parameters):
     base_model = model_parameters['base_model']
     pretrained = model_parameters['pretrained']
 
-    is_cuda, num_gpu, device = getCudaDevices()
+    is_cuda, num_gpu, device = getCudaDevices(general_parameters)
 
     if base_model=='densenet121':
 
@@ -594,8 +594,8 @@ def getLogData(log_file, save_best, metric):
 # In[15]:
 
 
-def train_model(model, model_name, model_dir, loss_name, dataloaders, criterion, optimizer,
-                scheduler, num_epochs, next_epoch, best_score, is_inception=False, save_best='loss', metric='ACC'):
+def train_model(parameters, model, model_name, loss_name, dataloaders, criterion, optimizer,
+                scheduler, next_epoch, best_score, is_inception=False):
 
     since = time.time()
 
@@ -606,6 +606,10 @@ def train_model(model, model_name, model_dir, loss_name, dataloaders, criterion,
     print('-' * 100)
 
     is_cuda, num_gpu, device = getCudaDevices()
+    model_dir = parameters['directory']['model']
+    num_epochs=parameters['num_epoch']
+    save_best=parameters['save_best']
+    metric=parameters['metric']
 
     for epoch in range(next_epoch, num_epochs):
 
@@ -768,21 +772,17 @@ def GridSearch(net_list, parameters):
 
                                 # Train and evaluate
                                 best_score = train_model(
+                                    parameters,
                                     model,
                                     model_name,
-                                    parameters['directory']['model'],
                                     l,
                                     dataloaders_dict,
                                     criterion,
                                     optimizer,
                                     scheduler,
-                                    num_epochs=parameters['num_epoch'],
                                     next_epoch=next_epoch,
                                     best_score=best_score,
-                                    is_inception=net_list[m]['is_inception'],
-                                    save_best=parameters['save_best'],
-                                    metric=parameters['metric'],
-                                    )
+                                    is_inception=net_list[m]['is_inception'])
 
                                 model_name_list.append(model_name)
                                 metric_list.append(best_score)
@@ -823,7 +823,7 @@ def main():
 
     PrintCombinations(parameters)
 
-    is_cuda, num_gpu, device = getCudaDevices()
+    is_cuda, num_gpu, device = getCudaDevices(parameters)
 
     # # Calc Classes Weight
     if parameters['num_classes'] > 1:
