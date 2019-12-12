@@ -75,7 +75,7 @@ def PrintCombinations(parameters):
                                 i += 1
 
 # Cuda
-def getCudaDevices()
+def getCudaDevices():
 
     is_cuda = torch.cuda.is_available()
 
