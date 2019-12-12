@@ -629,7 +629,8 @@ def train_model(parameters, model, model_name, loss_list, loss_name, dataloaders
 
     for epoch in range(next_epoch, num_epochs):
 
-        print(' Epoch {}/{} '.format(epoch, num_epochs - 1).center(100, '='))
+        print('Epoch {}/{}'.format(epoch, num_epochs - 1))
+        print('=' * 13)
 
         epoch_since = time.time()
         lr = optimizer.param_groups[0]['lr']
