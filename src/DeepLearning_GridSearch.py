@@ -594,7 +594,7 @@ def getLogData(log_file, save_best, metric):
 # In[15]:
 
 
-def train_model(parameters, model, model_name, loss_name, dataloaders, criterion, optimizer, scheduler, is_inception=False):
+def train_model(parameters, model, model_name, loss_list, loss_name, dataloaders, criterion, optimizer, scheduler, is_inception=False):
 
     since = time.time()
 
@@ -659,8 +659,8 @@ def train_model(parameters, model, model_name, loss_name, dataloaders, criterion
                         # From https://discuss.pytorch.org/t/how-to-optimize-inception-model-with-auxiliary-classifiers/7958
                         outputs, aux_outputs = model(inputs)
 
-                        loss1, preds = calcLoss(criterion, loss_name, outputs, labels)
-                        loss2, preds = calcLoss(criterion, loss_name, aux_outputs, labels)
+                        loss1, preds = calcLoss(loss_list, criterion, loss_name, outputs, labels)
+                        loss2, preds = calcLoss(loss_list, criterion, loss_name, aux_outputs, labels)
 
                         loss = loss1 + 0.4*loss2
 
@@ -670,7 +670,7 @@ def train_model(parameters, model, model_name, loss_name, dataloaders, criterion
 
                         outputs = outputs.squeeze()
 
-                        loss, preds = calcLoss(criterion, loss_name, outputs, labels)
+                        loss, preds = calcLoss(loss_list, criterion, loss_name, outputs, labels)
 
                     # backward + optimize only if in training phase
                     if phase == 'train':
@@ -773,6 +773,7 @@ def GridSearch(net_list, optimizer_list, loss_list, scheduler_list, parameters):
                                     parameters,
                                     model,
                                     model_name,
+                                    loss_list,
                                     l,
                                     dataloaders_dict,
                                     criterion,
