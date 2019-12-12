@@ -605,7 +605,7 @@ def train_model(parameters, model, model_name, loss_name, dataloaders, criterion
     print(model_name)
     print('-' * 100)
 
-    is_cuda, num_gpu, device = getCudaDevices()
+    is_cuda, num_gpu, device = getCudaDevices(parameters)
     model_dir = parameters['directory']['model']
     num_epochs=parameters['num_epoch']
     save_best=parameters['save_best']
