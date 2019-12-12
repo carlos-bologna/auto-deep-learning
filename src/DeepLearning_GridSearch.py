@@ -494,9 +494,9 @@ def onehot(labels, num_classes):
     return torch.zeros(len(labels), num_classes).scatter_(1, labels.unsqueeze(1).cpu(), 1.).cuda()
 
 
-def calcLoss(criterion, loss_name, outputs, labels):
+def calcLoss(loss_list, criterion, loss_name, outputs, labels, num_classes):
 
-    loss_parameters = LOSS_LIST[loss_name]
+    loss_parameters = loss_list[loss_name]
     last_layer = loss_parameters['last_layer']
 
     if last_layer == 'softmax':
@@ -615,6 +615,7 @@ def train_model(parameters, model, model_name, loss_list, loss_name, dataloaders
     num_epochs=parameters['num_epoch']
     save_best=parameters['save_best']
     metric=parameters['metric']
+    num_classes = parameters['num_classes']
 
     for epoch in range(next_epoch, num_epochs):
 
@@ -659,8 +660,8 @@ def train_model(parameters, model, model_name, loss_list, loss_name, dataloaders
                         # From https://discuss.pytorch.org/t/how-to-optimize-inception-model-with-auxiliary-classifiers/7958
                         outputs, aux_outputs = model(inputs)
 
-                        loss1, preds = calcLoss(loss_list, criterion, loss_name, outputs, labels)
-                        loss2, preds = calcLoss(loss_list, criterion, loss_name, aux_outputs, labels)
+                        loss1, preds = calcLoss(loss_list, criterion, loss_name, outputs, labels, num_classes)
+                        loss2, preds = calcLoss(loss_list, criterion, loss_name, aux_outputs, labels, num_classes)
 
                         loss = loss1 + 0.4*loss2
 
@@ -670,7 +671,7 @@ def train_model(parameters, model, model_name, loss_list, loss_name, dataloaders
 
                         outputs = outputs.squeeze()
 
-                        loss, preds = calcLoss(loss_list, criterion, loss_name, outputs, labels)
+                        loss, preds = calcLoss(loss_list, criterion, loss_name, outputs, labels, num_classes)
 
                     # backward + optimize only if in training phase
                     if phase == 'train':
