@@ -78,12 +78,12 @@ def PrintCombinations(parameters):
 def getCudaDevices(parameters):
 
     is_cuda = torch.cuda.is_available()
-    num_gpu = torch.cuda.device_count()
+    gpu_list = []
 
     if is_cuda: #GPU
 
         if parameters['cuda_devices'][0] == -1: # All GPUs
-            gpu_list = list(range(0, num_gpu))
+            gpu_list = list(range(0, torch.cuda.device_count()))
 
         cuda_list = ','.join([str(c) for c in gpu_list])
 
@@ -94,7 +94,7 @@ def getCudaDevices(parameters):
 
     # Set seed for CUDA (all GPU)
     #torch.cuda.manual_seed_all(SEED)
-    return is_cuda, num_gpu, device
+    return is_cuda, gpu_list, device
 
 # Custom Dataset
 class CustomDataset(Dataset):
@@ -275,7 +275,7 @@ def getModel(net_list, model_name, general_parameters):
     base_model = model_parameters['base_model']
     pretrained = model_parameters['pretrained']
 
-    is_cuda, num_gpu, device = getCudaDevices(general_parameters)
+    is_cuda, gpu_list, device = getCudaDevices(general_parameters)
 
     if base_model=='densenet121':
 
@@ -331,14 +331,14 @@ def getModel(net_list, model_name, general_parameters):
 
     # Parallel
     # Obs.: when load model, the DataParallel is already in the model.
-    if is_cuda & (num_gpu > 1) & (not model_parameters['is_inception']):
+    if is_cuda & (len(gpu_list) > 1) & (not model_parameters['is_inception']):
 
         if not general_parameters['cuda_devices']:
-            print("Let's use", num_gpu, "GPUs!")
+            print("Let's use", len(gpu_list), "GPUs!")
             model = nn.DataParallel(model)
         else:
             print("Let's use", general_parameters['cuda_devices'], "GPUs!")
-            model = nn.DataParallel(model, device_ids = general_parameters['cuda_devices']) # When load checkpoint, the DataParallel is already in the model.
+            model = nn.DataParallel(model, device_ids = gpu_list) # When load checkpoint, the DataParallel is already in the model.
 
     # Frozen Layers
     for name, param in model.named_parameters():
@@ -605,7 +605,7 @@ def train_model(parameters, model, model_name, loss_name, dataloaders, criterion
     print(model_name)
     print('-' * 100)
 
-    is_cuda, num_gpu, device = getCudaDevices(parameters)
+    is_cuda, gpu_list, device = getCudaDevices(parameters)
     model_dir = parameters['directory']['model']
     num_epochs=parameters['num_epoch']
     save_best=parameters['save_best']
@@ -823,7 +823,7 @@ def main():
 
     PrintCombinations(parameters)
 
-    is_cuda, num_gpu, device = getCudaDevices(parameters)
+    is_cuda, gpu_list, device = getCudaDevices(parameters)
 
     # # Calc Classes Weight
     if parameters['num_classes'] > 1:
