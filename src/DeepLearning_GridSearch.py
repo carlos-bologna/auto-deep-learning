@@ -75,32 +75,28 @@ def PrintCombinations(parameters):
                                 i += 1
 
 # Cuda
-def getCudaDevices():
+def getCudaDevices(parameters):
 
     is_cuda = torch.cuda.is_available()
+    num_gpu = torch.cuda.device_count()
 
     if is_cuda: #GPU
 
         if parameters['cuda_devices'][0] == -1: # All GPUs
-            parameters['cuda_devices'] = list(range(0, torch.cuda.device_count()))
+            gpu_list = list(range(0, num_gpu))
 
-        cuda_list = ','.join([str(c) for c in parameters['cuda_devices']])
+        cuda_list = ','.join([str(c) for c in gpu_list])
 
         device = torch.device("cuda:{}".format(cuda_list))
-
-        print("Total GPU is", torch.cuda.device_count())
 
     else: #CPU
         device = "cpu"
 
     # Set seed for CUDA (all GPU)
     #torch.cuda.manual_seed_all(SEED)
+    return is_cuda, num_gpu, device
 
-    #print('Cuda:', is_cuda, ', Device:', device)
-
-    return is_cuda, device
-
-# # Custom Dataset
+# Custom Dataset
 class CustomDataset(Dataset):
 
     def __init__(self, data_dir, test_split, sample_frac, input_size, dst_dir,
@@ -162,12 +158,7 @@ class CustomDataset(Dataset):
 
         return (image,label)
 
-
-# # Augmentation
-
-# In[6]:
-
-
+# Augmentation
 def getAugmentation(transform):
 
     transf_list = []
@@ -284,7 +275,7 @@ def getModel(net_list, model_name, general_parameters):
     base_model = model_parameters['base_model']
     pretrained = model_parameters['pretrained']
 
-    is_cuda, device = getCudaDevices()
+    is_cuda, num_gpu, device = getCudaDevices()
 
     if base_model=='densenet121':
 
@@ -340,10 +331,10 @@ def getModel(net_list, model_name, general_parameters):
 
     # Parallel
     # Obs.: when load model, the DataParallel is already in the model.
-    if is_cuda & (torch.cuda.device_count() > 1) & (not model_parameters['is_inception']):
+    if is_cuda & (num_gpu > 1) & (not model_parameters['is_inception']):
 
         if not general_parameters['cuda_devices']:
-            print("Let's use", torch.cuda.device_count(), "GPUs!")
+            print("Let's use", num_gpu, "GPUs!")
             model = nn.DataParallel(model)
         else:
             print("Let's use", general_parameters['cuda_devices'], "GPUs!")
@@ -614,7 +605,7 @@ def train_model(model, model_name, model_dir, loss_name, dataloaders, criterion,
     print(model_name)
     print('-' * 100)
 
-    is_cuda, device = getCudaDevices()
+    is_cuda, num_gpu, device = getCudaDevices()
 
     for epoch in range(next_epoch, num_epochs):
 
@@ -832,7 +823,7 @@ def main():
 
     PrintCombinations(parameters)
 
-    is_cuda, device = getCudaDevices()
+    is_cuda, num_gpu, device = getCudaDevices()
 
     # # Calc Classes Weight
     if parameters['num_classes'] > 1:
