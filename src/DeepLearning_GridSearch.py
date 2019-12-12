@@ -256,7 +256,7 @@ def getDataLoaders(input_size, sample_frac, batch_size, parameters):
 # In[9]:
 
 
-def getModel(net_list, model_name, general_parameters, num_classes, model_dir, load_checkpoint):
+def getModel(net_list, model_name, general_parameters):
 
     model_parameters = net_list[model_name]
     base_model = model_parameters['base_model']
@@ -336,7 +336,7 @@ def getModel(net_list, model_name, general_parameters, num_classes, model_dir, l
     if general_parameters['load_checkpoint']:
 
         # Get lastest model file
-        list_of_files = glob.glob(model_dir + f'/{base_model}_*.pt') # * means all if need specific format then *.csv
+        list_of_files = glob.glob(general_parameters['directory']['model'] + f'/{base_model}_*.pt') # * means all if need specific format then *.csv
 
         if len(list_of_files) > 0:
 
@@ -726,7 +726,7 @@ def GridSearch(net_list, parameters):
 
                     model_parameters = net_list[m]
                     base_model = model_parameters['base_model']
-                    model = getModel(net_list, m, parameters['num_classes'], parameters['directory']['model'], parameters['load_checkpoint'])
+                    model = getModel(net_list, m, parameters)
 
                     for o in parameters['optimizers']:
 
