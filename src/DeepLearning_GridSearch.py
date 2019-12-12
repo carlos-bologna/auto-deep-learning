@@ -612,7 +612,7 @@ def train_model(parameters, model, model_name, loss_list, loss_name, dataloaders
     epoch_metric = 0.0
 
     print(model_name)
-    print('-' * 100)
+    print()
 
     is_cuda, gpu_list, device = getCudaDevices(parameters)
     model_dir = parameters['directory']['model']
@@ -807,7 +807,7 @@ def GridSearch(net_list, optimizer_list, loss_list, scheduler_list, parameters):
 def main():
 
     # Print Title
-    " Auto Deep Learning ".center(100, '=')
+    print(" Auto Deep Learning ".center(100, '='))
 
     # Get Parameters
     with open('core/net_list.json') as f:
