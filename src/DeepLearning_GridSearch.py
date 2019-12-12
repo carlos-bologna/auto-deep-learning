@@ -121,7 +121,7 @@ class CustomDataset(Dataset):
             self.y = y_test
 
         # Check for Preprocess Images
-        prep.Preprocess(data_dir, self.x, self.y, input_size, clear_cache, parameters['directory']['numpy'])
+        prep.Preprocess(data_dir, self.x, self.y, input_size, clear_cache, dst_dir)
 
     def __len__(self):
         return len(self.y)
