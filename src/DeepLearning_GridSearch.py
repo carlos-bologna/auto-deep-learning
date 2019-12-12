@@ -209,7 +209,7 @@ def getAugmentation(transform):
 # In[7]:
 
 
-def getDataLoaders(input_size, sample_frac, batch_size):
+def getDataLoaders(input_size, sample_frac, batch_size, parameters):
 
     train_transf = transforms.Compose(
         getAugmentation(parameters['data_augmentation']['train'])
@@ -717,7 +717,7 @@ def GridSearch(parameters):
 
             for bch in parameters['batch_sizes']:
 
-                dataloaders_dict = getDataLoaders(inp, frac, bch)
+                dataloaders_dict = getDataLoaders(inp, frac, bch, parameters)
                 augmentation_tag = parameters['data_augmentation']['tag']
 
                 for m in parameters['models']:
