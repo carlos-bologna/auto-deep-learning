@@ -374,12 +374,12 @@ def getModel(net_list, model_name, general_parameters):
 # In[10]:
 
 
-def getScheduler(scheduler_name, optimizer):
+def getScheduler(scheduler_list, scheduler_name, optimizer):
 
     if not scheduler_name:
         return None
 
-    scheduler_parameters = SCHEDULER_LIST[scheduler_name]
+    scheduler_parameters = scheduler_list[scheduler_name]
 
     if scheduler_parameters['function'] == 'ReduceLROnPlateau':
 
@@ -441,9 +441,9 @@ def getOptimizer(optimizer_list, optimizer_name, model):
 # In[12]:
 
 
-def getLossFunction(loss_nme):
+def getLossFunction(loss_list, loss_nme):
 
-    loss_parameters = LOSS_LIST[loss_nme]
+    loss_parameters = loss_list[loss_nme]
 
     if loss_parameters['function'] == 'SmoothL1Loss':
         criterion = nn.SmoothL1Loss(
@@ -727,7 +727,7 @@ def train_model(parameters, model, model_name, loss_name, dataloaders, criterion
 
 # In[16]:
 
-def GridSearch(net_list, optimizer_list, parameters):
+def GridSearch(net_list, optimizer_list, loss_list, scheduler_list, parameters):
 
     model_name_list = []
     metric_list = []
@@ -753,11 +753,11 @@ def GridSearch(net_list, optimizer_list, parameters):
 
                         for s in parameters['schedulers']:
 
-                            scheduler = getScheduler(s, optimizer)
+                            scheduler = getScheduler(scheduler_list, s, optimizer)
 
                             for l in parameters['losses']:
 
-                                criterion = getLossFunction(l)
+                                criterion = getLossFunction(loss_list, l)
 
                                 model_name = f'{base_model}_Inp{str(inp)}-{augmentation_tag}-Data{str(frac)}-Bch{str(bch)}-{m}-{s}-{o}-{l}'
 
@@ -836,7 +836,7 @@ def main():
             if 'weight' in LOSS_LIST[l]:
                 LOSS_LIST[l]['weight'] = torch.from_numpy(w_classes).to(device)
 
-    GridSearch(NET_LIST, OPTIMIZER_LIST, parameters)
+    GridSearch(NET_LIST, OPTIMIZER_LIST, LOSS_LIST, SCHEDULER_LIST, parameters)
 
 if __name__ == '__main__':
     main()
