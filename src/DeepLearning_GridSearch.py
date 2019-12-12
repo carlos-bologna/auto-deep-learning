@@ -256,9 +256,9 @@ def getDataLoaders(input_size, sample_frac, batch_size, parameters):
 # In[9]:
 
 
-def getModel(model_name, num_classes, model_dir, load_checkpoint):
+def getModel(net_list, model_name, num_classes, model_dir, load_checkpoint):
 
-    model_parameters = NET_LIST[model_name]
+    model_parameters = net_list[model_name]
     base_model = model_parameters['base_model']
     pretrained = model_parameters['pretrained']
 
@@ -724,7 +724,7 @@ def GridSearch(net_list, parameters):
 
                     model_parameters = net_list[m]
                     base_model = model_parameters['base_model']
-                    model = getModel(m, parameters['num_classes'], parameters['directory']['model'], parameters['load_checkpoint'])
+                    model = getModel(net_list, m, parameters['num_classes'], parameters['directory']['model'], parameters['load_checkpoint'])
 
                     for o in parameters['optimizers']:
 
