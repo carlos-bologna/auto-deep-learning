@@ -706,7 +706,7 @@ def train_model(model, model_name, model_dir, loss_name, dataloaders, criterion,
 
 # In[16]:
 
-def GridSearch():
+def GridSearch(parameters):
 
     model_name_list = []
     metric_list = []
@@ -844,7 +844,7 @@ def main():
 
     print('Cuda:', is_cuda, ', Device:', device)
 
-    GridSearch()
+    GridSearch(parameters)
 
 
 if __name__ == '__main__':
