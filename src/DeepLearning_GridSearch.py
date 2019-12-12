@@ -72,7 +72,7 @@ def PrintCombinations(parameters):
                             for l in parameters['losses']:
                                 model_name = f'{i}\n Input Size: {str(inp)}\n Dataset Frac.: {str(frac)}\n Batch Size: {str(bch)}\n Model: {m}\n Scheduler: {s}\n Optimizer: {o}\n Loss: {l}\n'
                                 print(' Model Name'.center(100, '='))
-                                print(model_name.center(100, ''))
+                                print(model_name.center(100, ' '))
                                 print('=' * 100)
                                 print()
 
