@@ -844,7 +844,7 @@ def main():
 
     print('Cuda:', is_cuda, ', Device:', device)
 
-    GridSearch(net_list, parameters)
+    GridSearch(NET_LIST, parameters)
 
 
 if __name__ == '__main__':
