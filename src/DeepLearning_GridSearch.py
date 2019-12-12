@@ -594,12 +594,17 @@ def getLogData(log_file, save_best, metric):
 # In[15]:
 
 
-def train_model(parameters, model, model_name, loss_name, dataloaders, criterion, optimizer,
-                scheduler, next_epoch, best_score, is_inception=False):
+def train_model(parameters, model, model_name, loss_name, dataloaders, criterion, optimizer, scheduler, is_inception=False):
 
     since = time.time()
 
-    #best_score = 0.0 if save_best == 'metric' else float("inf")
+    # Get State from Tensorborad Log
+    log_dir = os.path.join(parameters['directory']['logs'], model_name)
+    next_epoch, best_score = getLogData(log_dir, parameters['save_best'], parameters['metric'])
+
+    # Start Tensorborad
+    tensorboard = SummaryWriter(log_dir=log_dir)
+
     epoch_metric = 0.0
 
     print(model_name)
@@ -761,13 +766,6 @@ def GridSearch(net_list, optimizer_list, loss_list, scheduler_list, parameters):
 
                                 model_name = f'{base_model}_Inp{str(inp)}-{augmentation_tag}-Data{str(frac)}-Bch{str(bch)}-{m}-{s}-{o}-{l}'
 
-                                # Tensorboard Logs
-                                log_dir = os.path.join(parameters['directory']['logs'], model_name)
-
-                                tensorboard = SummaryWriter(log_dir=log_dir)
-
-                                next_epoch, best_score = getLogData(log_dir, parameters['save_best'], parameters['metric'])
-
                                 #summary(model, input_size=(CHANNELS, inp, inp))
 
                                 # Train and evaluate
@@ -780,8 +778,6 @@ def GridSearch(net_list, optimizer_list, loss_list, scheduler_list, parameters):
                                     criterion,
                                     optimizer,
                                     scheduler,
-                                    next_epoch=next_epoch,
-                                    best_score=best_score,
                                     is_inception=net_list[m]['is_inception'])
 
                                 model_name_list.append(model_name)
