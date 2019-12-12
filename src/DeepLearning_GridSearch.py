@@ -256,7 +256,7 @@ def getDataLoaders(input_size, sample_frac, batch_size, parameters):
 # In[9]:
 
 
-def getModel(net_list, model_name, num_classes, model_dir, load_checkpoint):
+def getModel(net_list, model_name, general_parameters, num_classes, model_dir, load_checkpoint):
 
     model_parameters = net_list[model_name]
     base_model = model_parameters['base_model']
@@ -267,65 +267,65 @@ def getModel(net_list, model_name, num_classes, model_dir, load_checkpoint):
     if base_model=='densenet121':
 
         model = densenet121(pretrained = pretrained)
-        model.classifier = nn.Linear(1024, num_classes)
+        model.classifier = nn.Linear(1024, general_parameters['num_classes'])
 
     elif base_model=='densenet121multitask':
 
         model = densenet121multitask(pretrained = pretrained)
-        model.classifier = nn.Linear(1024, num_classes)
+        model.classifier = nn.Linear(1024, general_parameters['num_classes'])
         model.aux_classifier = nn.Linear(1024, 1)
 
     elif base_model=='vgg16':
 
         model = vgg16(pretrained = pretrained)
-        model.classifier[6] = nn.Linear(4096, num_classes)
+        model.classifier[6] = nn.Linear(4096, general_parameters['num_classes'])
 
     elif base_model=='resnet50':
 
         model = resnet50(pretrained = pretrained)
-        model.fc = nn.Linear(2048, num_classes)
+        model.fc = nn.Linear(2048, general_parameters['num_classes'])
 
     elif base_model=='resnet101':
 
         model = resnet101(pretrained = pretrained)
-        model.fc = nn.Linear(2048, num_classes)
+        model.fc = nn.Linear(2048, general_parameters['num_classes'])
 
     elif base_model=='ResNet50Attention':
-        model = ResNet50Attention(num_classes,
+        model = ResNet50Attention(general_parameters['num_classes'],
                                   attention=True,
                                   pretrained = pretrained)
 
     elif base_model=='ResNet101Attention':
-        model = ResNet101Attention(num_classes,
+        model = ResNet101Attention(general_parameters['num_classes'],
                                   attention=True,
                                   pretrained = pretrained)
 
     elif base_model=='ResNet50AttentionMultiTask':
-        model = ResNet50AttentionMultiTask(num_classes,
+        model = ResNet50AttentionMultiTask(general_parameters['num_classes'],
                                   attention=True,
                                   pretrained = pretrained)
 
     elif base_model=='inception_v3':
 
         model = inception_v3(pretrained = pretrained)
-        model.fc = nn.Linear(2048, num_classes)
-        model.AuxLogits.fc = nn.Linear(768, num_classes)
+        model.fc = nn.Linear(2048, general_parameters['num_classes'])
+        model.AuxLogits.fc = nn.Linear(768, general_parameters['num_classes'])
 
     elif base_model=='efficientnetb7':
 
         model = EfficientNet.from_pretrained('efficientnet-b7')
-        model._fc = nn.Linear(2560, num_classes)
+        model._fc = nn.Linear(2560, general_parameters['num_classes'])
 
     # Parallel
     # Obs.: when load model, the DataParallel is already in the model.
     if is_cuda & (torch.cuda.device_count() > 1) & (not model_parameters['is_inception']):
 
-        if not parameters['cuda_devices']:
+        if not general_parameters['cuda_devices']:
             print("Let's use", torch.cuda.device_count(), "GPUs!")
             model = nn.DataParallel(model)
         else:
-            print("Let's use", parameters['cuda_devices'], "GPUs!")
-            model = nn.DataParallel(model, device_ids = parameters['cuda_devices']) # When load checkpoint, the DataParallel is already in the model.
+            print("Let's use", general_parameters['cuda_devices'], "GPUs!")
+            model = nn.DataParallel(model, device_ids = general_parameters['cuda_devices']) # When load checkpoint, the DataParallel is already in the model.
 
     # Frozen Layers
     for name, param in model.named_parameters():
@@ -333,7 +333,7 @@ def getModel(net_list, model_name, num_classes, model_dir, load_checkpoint):
             if l in name:
                 param.requires_grad = False
 
-    if load_checkpoint:
+    if general_parameters['load_checkpoint']:
 
         # Get lastest model file
         list_of_files = glob.glob(model_dir + f'/{base_model}_*.pt') # * means all if need specific format then *.csv
