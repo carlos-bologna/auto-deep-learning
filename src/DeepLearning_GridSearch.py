@@ -57,7 +57,7 @@ import matplotlib.pyplot as plt
 # In[3]:
 
 
-def PrintCombinations():
+def PrintCombinations(parameters):
     comb = len(parameters['input_sizes']) * len(parameters['sample_fracs']) * len(parameters['batch_sizes']) * len(parameters['models']) * len(parameters['optimizers']) * len(parameters['schedulers']) * len(parameters['losses'])
     print('Total Combinations:', comb)
     print()
@@ -804,7 +804,7 @@ def main():
     with open('parameters/diabetic_retinopathy.json') as f:
         parameters = json.load(f)
 
-    PrintCombinations()
+    PrintCombinations(parameters)
 
     # # Calc Classes Weight
 
