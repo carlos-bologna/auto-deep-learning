@@ -580,6 +580,10 @@ def getLogData(log_file, save_best, metric):
 
         next_epoch = len(score)
 
+        print('Resuming training from epoch', next_epoch)
+        print('The best', save_best, 'so far is', best_score)
+        print()
+
     except:
 
         best_score = 0.0 if save_best == 'metric' else float("inf")
@@ -619,8 +623,7 @@ def train_model(parameters, model, model_name, loss_list, loss_name, dataloaders
 
     for epoch in range(next_epoch, num_epochs):
 
-        print('Epoch {}/{}'.format(epoch, num_epochs - 1))
-        print('-' * 10)
+        print(' Epoch {}/{} '.format(epoch, num_epochs - 1).center(100, '='))
 
         epoch_since = time.time()
         lr = optimizer.param_groups[0]['lr']
@@ -802,6 +805,9 @@ def GridSearch(net_list, optimizer_list, loss_list, scheduler_list, parameters):
 #    ax.text(v, i, str(v))
 
 def main():
+
+    # Print Title
+    " Auto Deep Learning ".center(100, '=')
 
     # Get Parameters
     with open('core/net_list.json') as f:
