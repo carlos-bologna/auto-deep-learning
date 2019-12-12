@@ -59,7 +59,7 @@ import matplotlib.pyplot as plt
 
 def PrintCombinations(parameters):
     comb = len(parameters['input_sizes']) * len(parameters['sample_fracs']) * len(parameters['batch_sizes']) * len(parameters['models']) * len(parameters['optimizers']) * len(parameters['schedulers']) * len(parameters['losses'])
-    print('Total Combinations:', comb)
+    print('Combinations of Models:', comb)
     print()
     i=1
 
@@ -71,7 +71,11 @@ def PrintCombinations(parameters):
                         for s in parameters['schedulers']:
                             for l in parameters['losses']:
                                 model_name = f'{i}\n Input Size: {str(inp)}\n Dataset Frac.: {str(frac)}\n Batch Size: {str(bch)}\n Model: {m}\n Scheduler: {s}\n Optimizer: {o}\n Loss: {l}\n'
-                                print(model_name)
+                                print(' Model Name'.center(100, '='))
+                                print(model_name.center(100, ''))
+                                print('=' * 100)
+                                print()
+
                                 i += 1
 
 # Cuda
@@ -335,9 +339,11 @@ def getModel(net_list, model_name, general_parameters):
 
         if not general_parameters['cuda_devices']:
             print("Let's use", len(gpu_list), "GPUs!")
+            print()
             model = nn.DataParallel(model)
         else:
             print("Let's use", general_parameters['cuda_devices'], "GPUs!")
+            print()
             model = nn.DataParallel(model, device_ids = gpu_list) # When load checkpoint, the DataParallel is already in the model.
 
     # Frozen Layers
@@ -355,7 +361,8 @@ def getModel(net_list, model_name, general_parameters):
 
             latest_file = max(list_of_files, key=os.path.getctime)
 
-            print(f'Loading state dict from checkpoint \n\t {latest_file}')
+            print(f'Loading state dict from checkpoint: \n {latest_file}')
+            print()
 
             model.load_state_dict(torch.load(latest_file, map_location=device))
     else:
@@ -581,6 +588,7 @@ def getLogData(log_file, save_best, metric):
         next_epoch = len(score)
 
         print('Resuming training from epoch', next_epoch)
+        print()
         print('The best', save_best, 'so far is', best_score)
         print()
 
@@ -726,8 +734,10 @@ def train_model(parameters, model, model_name, loss_list, loss_name, dataloaders
         print()
 
     time_elapsed = time.time() - since
+    print('=' * 100)
     print('Training complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))
     print('Best val {}: {:4f}'.format(save_best, best_score))
+    print('=' * 100)
 
     return best_score
 
