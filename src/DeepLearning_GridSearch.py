@@ -524,7 +524,7 @@ def calcLoss(loss_list, criterion, loss_name, outputs, labels, num_classes):
 
     # Transform label from shape 1 to (1, n_classes)
     if loss_parameters['onehotlabel']:
-        labels = onehot(labels, NUM_CLASSES)
+        labels = onehot(labels, num_classes)
 
     loss = criterion(preds_loss, labels)
 
