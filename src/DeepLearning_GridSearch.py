@@ -333,25 +333,7 @@ def getModel(net_list, model_name, general_parameters):
         model = EfficientNet.from_pretrained('efficientnet-b7')
         model._fc = nn.Linear(2560, general_parameters['num_classes'])
 
-    # Parallel
-    # Obs.: when load model, the DataParallel is already in the model.
-    if is_cuda & (len(gpu_list) > 1) & (not model_parameters['is_inception']):
-
-        if not general_parameters['cuda_devices']:
-            print("Let's use", len(gpu_list), "GPUs!")
-            print()
-            model = nn.DataParallel(model)
-        else:
-            print("Let's use", general_parameters['cuda_devices'], "GPUs!")
-            print()
-            model = nn.DataParallel(model, device_ids = gpu_list) # When load checkpoint, the DataParallel is already in the model.
-
-    # Frozen Layers
-    for name, param in model.named_parameters():
-        for l in model_parameters['layers_to_frozen']:
-            if l in name:
-                param.requires_grad = False
-
+    # Load Checkpoint
     if general_parameters['load_checkpoint']:
 
         # Get lastest model file
@@ -374,6 +356,25 @@ def getModel(net_list, model_name, general_parameters):
 
         if not pretrained:
             model.apply(w_init.weight_init) #Custom weight initialization
+
+    # Frozen Layers
+    for name, param in model.named_parameters():
+        for l in model_parameters['layers_to_frozen']:
+            if l in name:
+                param.requires_grad = False
+
+    # Parallel
+    # Obs.: when load model, the DataParallel is already in the model.
+    if is_cuda & (len(gpu_list) > 1) & (not model_parameters['is_inception']):
+
+        if not general_parameters['cuda_devices']:
+            print("Let's use", len(gpu_list), "GPUs!")
+            print()
+            model = nn.DataParallel(model)
+        else:
+            print("Let's use", general_parameters['cuda_devices'], "GPUs!")
+            print()
+            model = nn.DataParallel(model, device_ids = gpu_list) # When load checkpoint, the DataParallel is already in the model.
 
     if is_cuda:
         model = model.to(device)
