@@ -22,8 +22,8 @@
       64
    ],
    "models":[
-      "ResNet101AttentionPre",
-      "ResNet50AttentionPre"
+      "ResNet50AttentionPre",
+      "ResNet101AttentionPre"
    ],
    "load_checkpoint":true,
    "optimizers":[
