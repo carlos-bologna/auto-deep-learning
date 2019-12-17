@@ -275,7 +275,7 @@ def getModel(net_list, model_name, general_parameters):
     model_parameters = net_list[model_name]
     base_model = model_parameters['base_model']
     pretrained = model_parameters['pretrained']
-    save_best = model_parameters['save_best']
+    save_best = general_parameters['save_best']
 
     best_score = 0.0 if save_best == 'metric' else float("inf")
 
