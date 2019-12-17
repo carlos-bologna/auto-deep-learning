@@ -722,7 +722,13 @@ def train_model(parameters, model, model_name, loss_list, loss_name, dataloaders
 
                 if save_flag:
                     print('Saving the best model at {}'.format(model_dir))
-                    torch.save(model.state_dict(), model_dir + '/' + model_name + '_' + save_best + str(best_score) + '.pt')
+
+                    model_filename = model_dir + '/' + model_name + '_' + save_best + str(best_score) + '.pt'
+
+                    if isinstance(model, nn.DataParallel): #Check if it is DataParallel
+                        torch.save(model.module.state_dict(), model_filename) #Extract model without DataParallel
+                    else:
+                        torch.save(model.state_dict(), model_filename)
 
                 epoch_time_elapsed = time.time() - epoch_since
                 print('Epoch time elapsed: {:.0f}m {:.0f}s'.format(epoch_time_elapsed // 60, epoch_time_elapsed % 60))
