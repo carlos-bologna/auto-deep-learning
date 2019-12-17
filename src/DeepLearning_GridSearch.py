@@ -275,6 +275,9 @@ def getModel(net_list, model_name, general_parameters):
     model_parameters = net_list[model_name]
     base_model = model_parameters['base_model']
     pretrained = model_parameters['pretrained']
+    save_best = model_parameters['save_best']
+
+    best_score = 0.0 if save_best == 'metric' else float("inf")
 
     is_cuda, gpu_list, device = getCudaDevices(general_parameters)
 
@@ -362,6 +365,11 @@ def getModel(net_list, model_name, general_parameters):
             print()
 
             model.load_state_dict(torch.load(latest_file, map_location=device))
+
+            best_score = float(latest_file.split('_')[-1].replace(save_best, '').replace('.pt', ''))
+
+            print(f'Best score so far: \n {best_score}')
+            print()
     else:
 
         if not pretrained:
@@ -370,7 +378,7 @@ def getModel(net_list, model_name, general_parameters):
     if is_cuda:
         model = model.to(device)
 
-    return model
+    return model, best_score
 
 
 # # Scheduler
@@ -557,7 +565,7 @@ def calcMetric(preds, labels, metric):
 # In[14]:
 
 
-def getLogData(log_file, save_best, metric):
+def getLogData(log_file):
 
     try:
 
@@ -572,30 +580,18 @@ def getLogData(log_file, save_best, metric):
 
         ea.Reload() # loads events from file
 
-        if save_best == 'metric':
-            scalar_name = metric + '_val'
-            score = [s.value for s in ea.Scalars(scalar_name)]
-            best_score = max(score)
-
-        elif save_best == 'loss':
-            scalar_name = 'Loss_val'
-            score = [s.value for s in ea.Scalars(scalar_name)]
-            best_score = min(score)
+        score = [s.value for s in ea.Scalars('Loss_val')]
 
         next_epoch = len(score)
 
         print('Resuming training from epoch', next_epoch)
         print()
-        print('The best', save_best, 'so far is', best_score)
-        print()
 
     except:
 
-        best_score = 0.0 if save_best == 'metric' else float("inf")
-
         next_epoch = 0
 
-    return next_epoch, best_score
+    return next_epoch
 
 
 # # Train Function
@@ -603,13 +599,13 @@ def getLogData(log_file, save_best, metric):
 # In[15]:
 
 
-def train_model(parameters, model, model_name, loss_list, loss_name, dataloaders, criterion, optimizer, scheduler, is_inception=False):
+def train_model(parameters, model, model_name, loss_list, loss_name, dataloaders, criterion, optimizer, scheduler, best_score, is_inception=False):
 
     since = time.time()
 
     # Get State from Tensorborad Log
     log_dir = os.path.join(parameters['directory']['logs'], model_name)
-    next_epoch, best_score = getLogData(log_dir, parameters['save_best'], parameters['metric'])
+    next_epoch = getLogData(log_dir)
 
     # Start Tensorborad
     tensorboard = SummaryWriter(log_dir=log_dir)
@@ -769,7 +765,7 @@ def GridSearch(net_list, optimizer_list, loss_list, scheduler_list, parameters):
 
                     model_parameters = net_list[m]
                     base_model = model_parameters['base_model']
-                    model = getModel(net_list, m, parameters)
+                    model, best_score = getModel(net_list, m, parameters)
 
                     for o in parameters['optimizers']:
 
@@ -798,6 +794,7 @@ def GridSearch(net_list, optimizer_list, loss_list, scheduler_list, parameters):
                                     criterion,
                                     optimizer,
                                     scheduler,
+                                    best_score,
                                     is_inception=net_list[m]['is_inception'])
 
                                 model_name_list.append(model_name)
