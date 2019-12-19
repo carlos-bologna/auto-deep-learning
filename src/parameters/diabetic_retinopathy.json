@@ -11,7 +11,7 @@
       -1
    ],
    "seed":42,
-   "num_epoch":20,
+   "num_epoch":10,
    "test_split":0.2,
    "num_classes":1,
    "channels":3,
@@ -36,7 +36,7 @@
       "SmoothL1Loss"
    ],
    "sample_fracs":[
-      0.5
+      1.0
    ],
    "metric":"KAPPA",
    "save_best":"loss",
